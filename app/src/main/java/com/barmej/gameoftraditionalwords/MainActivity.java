@@ -3,6 +3,7 @@ package com.barmej.gameoftraditionalwords;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -58,5 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onChangeImageClicked(View view) {
         showNewImage();
+    }
+
+    public void onAnswerClicked(View view) {
+        Intent intent = new Intent(MainActivity.this,AnswerActivity.class);
+        intent.putExtra("question_answer",mCurrentAnswer + ": "+ mCurrentAnswerDescription);
+        startActivity(intent);
+
+
+
     }
 }

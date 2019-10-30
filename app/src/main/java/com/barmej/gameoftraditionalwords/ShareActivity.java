@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.WallpaperManager;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +33,6 @@ public class ShareActivity extends AppCompatActivity {
 
     private int mQuestionImage;
     public EditText mEditTextShareTitle;
-    private Bitmap mBitmap;
-    //String image_path;
-    //private int image_link;
-    //private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +41,18 @@ public class ShareActivity extends AppCompatActivity {
         mEditTextShareTitle = findViewById(R.id.edit_text_share_title);
         mQuestionImage = getIntent().getIntExtra("image_url",0);
 
-
     }
 
     public void onShareImageClicked(View view) {
-        Bitmap icon = mBitmap;
+        Bitmap b =BitmapFactory.decodeResource(getResources(),mQuestionImage);
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
+        b.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(),
+                b, "image", null);
+        Uri imageUri =  Uri.parse(path);
+        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(Intent.createChooser(share, "Select"));
     }
 }

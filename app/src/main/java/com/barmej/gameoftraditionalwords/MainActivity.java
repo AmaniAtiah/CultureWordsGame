@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
         imageViewQuestion = findViewById(R.id.image_view_question);
         ANSWERS = getResources().getStringArray(R.array.answers);
         ANSWERS_DESCRIPTION = getResources().getStringArray(R.array.answer_description);
-        showNewImage();
+        shareImage();
 
     }
 
-    private void showNewImage() {
+    private void shareImage() {
         Random random = new Random();
         int randomImageIndex = random.nextInt(IMAGE.length);
         mCurrentImage = IMAGE[randomImageIndex];
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onChangeImageClicked(View view) {
-        showNewImage();
+        shareImage();
     }
 
     public void onAnswerClicked(View view) {
@@ -66,7 +66,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("question_answer",mCurrentAnswer + ": "+ mCurrentAnswerDescription);
         startActivity(intent);
 
+    }
 
+    public void onShareImageClicked(View view) {
+        Intent intent = new Intent(MainActivity.this,ShareActivity.class);
+        intent.putExtra("image_url",mCurrentImage);
+        startActivity(intent);
 
     }
 }

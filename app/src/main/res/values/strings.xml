@@ -3,6 +3,11 @@
     <string name="name_of_game">كلمات تراثية</string>
     <string name="the_answer_is">الاجابة هي</string>
     <string name="back_text">رجوع</string>
+    <string name="share_the_question_with_friends">اسأل صديق</string>
+    <string name="share_question_text">شارك</string>
+    <string name="share_title_hint">أضف عنوان</string>
+
+
 
     <string-array name="answers">
         <item>العقال</item>

@@ -34,9 +34,9 @@ import static android.provider.MediaStore.Images.Media.insertImage;
 
 public class ShareActivity extends AppCompatActivity {
 
-    private int mQuestionImage;
+    private int mShareImage;
     public EditText mEditTextShareTitle;
-    private ImageView mImage;
+    private ImageView imageViewPicture;
 
 
     @Override
@@ -44,40 +44,37 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
         mEditTextShareTitle = findViewById(R.id.edit_text_share_title);
-        mImage = findViewById(R.id.image_view_question);
-        mQuestionImage = getIntent().getIntExtra("image_url",0);
+        imageViewPicture = findViewById(R.id.image_view_question);
+        mShareImage = getIntent().getIntExtra(constants.SHARE_IMAGE_EXTRA,0);
 
-        Drawable placeDrawable = ContextCompat.getDrawable(this,mQuestionImage);
-        mImage.setImageDrawable(placeDrawable);
+        Drawable placeDrawable = ContextCompat.getDrawable(this,mShareImage);
+        imageViewPicture.setImageDrawable(placeDrawable);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("app pref", MODE_PRIVATE);
-        String questionTitle = sharedPreferences.getString("share title","");
+        SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
+        String questionTitle = sharedPreferences.getString(constants.SHARE_TITLE,"");
         mEditTextShareTitle.setText(questionTitle);
-
 
     }
 
-
     public void onShareImageClicked(View view) {
-        Bitmap mBitmap =BitmapFactory.decodeResource(getResources(),mQuestionImage);
+        Bitmap mBitmap =BitmapFactory.decodeResource(getResources(),mShareImage);
         String questionTitle = mEditTextShareTitle.getText().toString();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = insertImage(this.getContentResolver(), mBitmap, "image", null);
+        String path = insertImage(this.getContentResolver(), mBitmap, constants.IMAGE, null);
         Uri imageUri =  Uri.parse(path);
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         shareIntent.putExtra(Intent.EXTRA_TEXT, questionTitle );
         shareIntent.setType("image/jpeg");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        startActivity(Intent.createChooser(shareIntent, constants.SHARE_IMAGE));
 
 
-
-        SharedPreferences sharedPreferences = getSharedPreferences("app pref", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("share title", questionTitle);
+        editor.putString(constants.SHARE_TITLE, questionTitle);
         editor.apply();
 
 

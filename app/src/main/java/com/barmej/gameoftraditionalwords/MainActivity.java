@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE =123 ;
-    private ImageView imageViewQuestion;
+    public ImageView imageViewPicture;
     private ImageButton changeLang;
 
     private int IMAGE [] = {
@@ -54,17 +54,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageViewQuestion = findViewById(R.id.image_view_question);
+        imageViewPicture = findViewById(R.id.image_view_picture);
         ANSWERS = getResources().getStringArray(R.array.answers);
         ANSWERS_DESCRIPTION = getResources().getStringArray(R.array.answer_description);
         shareImage();
 
-         changeLang = findViewById(R.id.button_change_language);
-        //  changeLang.setOnClickListener(new View.OnClickListener(){
+        changeLang = findViewById(R.id.button_change_language);
 
-
-
-        }
+    }
         public void onChangeClicked (View view){
             showLanguageDialog();
     }
@@ -98,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveLanguage(String lang) {
-        SharedPreferences sharedPreferences = getSharedPreferences("app pref" ,MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF ,MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("app lang",lang);
+        editor.putString(constants.APP_LANG,lang);
         editor.apply();
 
     }
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         mCurrentAnswer = ANSWERS[randomImageIndex];
         mCurrentAnswerDescription = ANSWERS_DESCRIPTION[randomImageIndex];
         Drawable placeDrawable = ContextCompat.getDrawable(this,mCurrentImage);
-        imageViewQuestion.setImageDrawable(placeDrawable);
+        imageViewPicture.setImageDrawable(placeDrawable);
     }
 
     public void onChangeImageClicked(View view) {
@@ -121,14 +118,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAnswerClicked(View view) {
         Intent intent = new Intent(MainActivity.this,AnswerActivity.class);
-        intent.putExtra("question_answer",mCurrentAnswer + ": "+ mCurrentAnswerDescription);
+        intent.putExtra(constants.QUESTION_ANSWER,mCurrentAnswer + ": "+ mCurrentAnswerDescription);
         startActivity(intent);
 
     }
 
     public void onShareImageClicked(View view) {
         Intent intent = new Intent(MainActivity.this,ShareActivity.class);
-        intent.putExtra("image_url",mCurrentImage);
+        intent.putExtra(constants.SHARE_IMAGE_EXTRA,mCurrentImage);
         startActivity(intent);
 
     }

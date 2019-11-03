@@ -36,6 +36,7 @@ public class ShareActivity extends AppCompatActivity {
 
     private int mQuestionImage;
     public EditText mEditTextShareTitle;
+    private ImageView mImage;
 
 
     @Override
@@ -43,7 +44,11 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
         mEditTextShareTitle = findViewById(R.id.edit_text_share_title);
+        mImage = findViewById(R.id.image_view_question);
         mQuestionImage = getIntent().getIntExtra("image_url",0);
+
+        Drawable placeDrawable = ContextCompat.getDrawable(this,mQuestionImage);
+        mImage.setImageDrawable(placeDrawable);
 
         SharedPreferences sharedPreferences = getSharedPreferences("app pref", MODE_PRIVATE);
         String questionTitle = sharedPreferences.getString("share title","");
@@ -51,6 +56,8 @@ public class ShareActivity extends AppCompatActivity {
 
 
     }
+
+
     public void onShareImageClicked(View view) {
         Bitmap mBitmap =BitmapFactory.decodeResource(getResources(),mQuestionImage);
         String questionTitle = mEditTextShareTitle.getText().toString();

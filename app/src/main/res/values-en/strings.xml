@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name_of_game">Traditional Words</string>
+    <string name="the_answer_is">The answer is</string>
+    <string name="back_text">Back</string>
+    <string name="share_the_question_with_friends">Ask a friend</string>
+    <string name="share_question_text">Share</string>
+    <string name="share_title_hint">Add an address</string>
+    <string name="change_lang_text"> change language </string>
+
+    <string-array name="answers">
+        <item> Headband </item>
+        <item> Scalp </item>
+        <item> Sadu </item>
+        <item> Henna </item>
+        <item> Dallah </item>
+        <item> Moccasin </item>
+        <item> Dagger </item>
+        <item> The Tiger </item>
+        <item> Lamp / OS </item>
+        <item> Lantern </item>
+        <item> Fez </item>
+        <item> Turban </item>
+        <item> Dishdasha </item>
+    </string-array>
+
+    <string-array name="answer_description">
+        <item> Placed above the plateau to fix it </item>
+        <item> Lined with wool, worn in winter to prevent cold </item>
+        <item> One type of traditional Bedouin fabric </item>
+        <item> Used in hair dye and beard, also used in hand beauty for women </item>
+        <item> The pot used to serve coffee in the Arabs </item>
+        <item> Made of leather, worn in the foot, famous for the Arabs. </item>
+        <item> Small white weapon placed on the waist </item>
+        <item> Small pillow on which to lean. </item>
+        <item> Name of the instrument that was used for lighting in the past </item>
+        <item> A tool used for lighting and decorations </item>
+        <item> Red hat known in the Levant, Egypt and Morocco </item>
+        <item> Cover pellets over the head. </item>
+        <item> An Arab dress worn heavily in the Gulf States. </item>
+    </string-array>
+
+</resources>

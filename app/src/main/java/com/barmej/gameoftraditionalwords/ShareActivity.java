@@ -47,8 +47,8 @@ public class ShareActivity extends AppCompatActivity {
         imageViewPicture = findViewById(R.id.image_view_question);
         mShareImage = getIntent().getIntExtra(constants.SHARE_IMAGE_EXTRA,0);
 
-        Drawable placeDrawable = ContextCompat.getDrawable(this,mShareImage);
-        imageViewPicture.setImageDrawable(placeDrawable);
+        Drawable imageDrawable = ContextCompat.getDrawable(this,mShareImage);
+        imageViewPicture.setImageDrawable(imageDrawable);
 
         SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
         String questionTitle = sharedPreferences.getString(constants.SHARE_TITLE,"");

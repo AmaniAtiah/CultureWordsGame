@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
         mCurrentImage = IMAGE[randomImageIndex];
         mCurrentAnswer = ANSWERS[randomImageIndex];
         mCurrentAnswerDescription = ANSWERS_DESCRIPTION[randomImageIndex];
-        Drawable placeDrawable = ContextCompat.getDrawable(this,mCurrentImage);
-        imageViewPicture.setImageDrawable(placeDrawable);
+        Drawable imageDrawable = ContextCompat.getDrawable(this,mCurrentImage);
+        imageViewPicture.setImageDrawable(imageDrawable);
     }
     private void checkPermissionAndShare() {
         // insertImage في النسخ من آندرويد 6 إلى آندرويد 9 يجب طلب الصلاحية لكي نتمكن من استخدام الدالة

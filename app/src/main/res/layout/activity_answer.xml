@@ -33,12 +33,14 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle_rounded_corners"
         android:gravity="center"
-        tools:text="الفروة: مبطنة بالصوف، تلبس في الشتاء للوقاية من البرد"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="الفروة: مبطنة بالصوف، تلبس في الشتاء للوقاية من البرد" />
 
     <Button
         android:id="@+id/button"

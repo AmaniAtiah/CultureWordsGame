@@ -1,15 +1,21 @@
 package com.barmej.gameoftraditionalwords;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -33,11 +40,9 @@ import java.net.URI;
 import static android.provider.MediaStore.Images.Media.insertImage;
 
 public class ShareActivity extends AppCompatActivity {
-
     private int mShareImage;
     public EditText mEditTextShareTitle;
     private ImageView imageViewPicture;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,6 @@ public class ShareActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
         String questionTitle = sharedPreferences.getString(constants.SHARE_TITLE,"");
         mEditTextShareTitle.setText(questionTitle);
-
     }
 
     public void onShareImageClicked(View view) {
@@ -76,11 +80,5 @@ public class ShareActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(constants.SHARE_TITLE, questionTitle);
         editor.apply();
-
-
     }
-
-
-
-
 }

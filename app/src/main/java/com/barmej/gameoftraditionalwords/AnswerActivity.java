@@ -17,16 +17,14 @@ public class AnswerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
         mTextViewAnswer = findViewById(R.id.text_view_answer);
-       mAnswer();
-    }
+
+        String answer = getIntent().getStringExtra(constants.QUESTION_ANSWER);
+        if(answer != null)
+            mTextViewAnswer.setText(answer); }
 
     public void  onReturnClicked(View view) {
         finish();
     }
 
-    private void mAnswer() {
-       String answer = getIntent().getStringExtra(constants.QUESTION_ANSWER);
-        if(answer != null)
-            mTextViewAnswer.setText(answer);
-    }
+
 }

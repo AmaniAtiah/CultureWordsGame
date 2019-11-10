@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] ANSWERS_DESCRIPTION;
 
     private String mCurrentAnswer, mCurrentAnswerDescription;
-    private int mCurrentImage = -1;
+    private int mCurrentImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
     public void showImage() {
         Drawable imageDrawable = ContextCompat.getDrawable(this, mCurrentImage);
         imageViewPicture.setImageDrawable(imageDrawable);
-
-
     }
 
     public void onChangeImageClicked(View view) {
@@ -144,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 mCurrentImage = savedInstanceState.getInt(BUNDLE_CURRENT_INDEX);
                 mCurrentAnswer = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER);
                 mCurrentAnswerDescription = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER_DESCRIPTION);
+
 
                 showImage();
             }

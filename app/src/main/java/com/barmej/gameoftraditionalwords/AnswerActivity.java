@@ -10,7 +10,11 @@ import android.widget.TextView;
 import java.util.Random;
 
 public class AnswerActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String BUNDLE_CURRENT_INDEX = "BUNDLE_CURRENT_INDEX";
     private TextView mTextViewAnswer;
+
+    String answer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +22,10 @@ public class AnswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_answer);
         mTextViewAnswer = findViewById(R.id.text_view_answer);
 
-        String answer = getIntent().getStringExtra(constants.QUESTION_ANSWER);
+       answer = getIntent().getStringExtra(constants.QUESTION_ANSWER);
         if(answer != null)
-            mTextViewAnswer.setText(answer); }
+            mTextViewAnswer.setText(answer);
+    }
 
     public void  onReturnClicked(View view) {
         finish();

@@ -1,34 +1,26 @@
 package com.barmej.gameoftraditionalwords;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String BUNDLE_CURRENT_INDEX = "BUNDLE_CURRENT_INDEX";
+    private static final String BUNDLE_CURRENT_ANSWER = "BUNDLE_CURRENT_ANSWER";
+    private static final String BUNDLE_CURRENT_ANSWER_DESCRIPTION = "BUNDLE_CURRENT_ANSWER_DESCEIPTION";
     public ImageView imageViewPicture;
     public ImageButton changeLang;
 
@@ -54,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] ANSWERS_DESCRIPTION;
 
     private String mCurrentAnswer, mCurrentAnswerDescription;
-    private int mCurrentImage;
+    private int mCurrentImage = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         Drawable imageDrawable = ContextCompat.getDrawable(this, mCurrentImage);
         imageViewPicture.setImageDrawable(imageDrawable);
 
+
     }
 
     public void onChangeImageClicked(View view) {
@@ -147,9 +140,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null) {
+
                 mCurrentImage = savedInstanceState.getInt(BUNDLE_CURRENT_INDEX);
-            showImage();
-        }
+                mCurrentAnswer = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER);
+                mCurrentAnswerDescription = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER_DESCRIPTION);
+
+                showImage();
+            }
         Log.i(TAG,"onRestoreInstanceState");
     }
 
@@ -157,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(BUNDLE_CURRENT_INDEX, mCurrentImage);
-
+        outState.putString(BUNDLE_CURRENT_ANSWER, mCurrentAnswer);
+        outState.putString(BUNDLE_CURRENT_ANSWER_DESCRIPTION, mCurrentAnswerDescription);
         Log.i(TAG,"onSaveInstanceState");
     }
 

@@ -5,44 +5,33 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.app.Activity;
-import android.app.WallpaperManager;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
 
-import static android.provider.MediaStore.Images.Media.insertImage;
+
+import static android.provider.MediaStore.*;
+
 
 public class ShareActivity extends AppCompatActivity {
+
+    private static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE = 123;
     private int mShareImage;
     public EditText mEditTextShareTitle;
     private ImageView imageViewPicture;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +50,20 @@ public class ShareActivity extends AppCompatActivity {
     }
 
     public void onShareImageClicked(View view) {
-        Bitmap mBitmap =BitmapFactory.decodeResource(getResources(),mShareImage);
+        checkPermissionAndShare();
+    }
+
+    private void shareImage() {
         String questionTitle = mEditTextShareTitle.getText().toString();
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = insertImage(this.getContentResolver(), mBitmap, constants.IMAGE, null);
+        Bitmap mBitmap =BitmapFactory.decodeResource(getResources(), mShareImage);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        String path = Images.Media.insertImage(getContentResolver(),
+                mBitmap, "Image", null);
         Uri imageUri =  Uri.parse(path);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, questionTitle );
-        shareIntent.setType("image/jpeg");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, constants.SHARE_IMAGE));
+        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+        share.putExtra(Intent.EXTRA_TEXT, questionTitle);
+        startActivity(Intent.createChooser(share, "Select"));
 
 
         SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
@@ -81,4 +71,66 @@ public class ShareActivity extends AppCompatActivity {
         editor.putString(constants.SHARE_TITLE, questionTitle);
         editor.apply();
     }
-}
+
+    private void checkPermissionAndShare() {
+        // insertImage في النسخ من آندرويد 6 إلى آندرويد 9 يجب طلب الصلاحية لكي نتمكن من استخدام الدالة
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // هنا لا يوجد صلاحية للتطبيق ويجب علينا طلب الصلاحية منه عن طريك الكود التالي
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // بسبب عدم منح المستخدم الصلاحية للتطبيق فمن الأفضل شرح فائدتها له عن طريق عرض رسالة تشرح ذلك
+                // هنا نقوم بإنشاء AlertDialog لعرض رسالة تشرح للمستخدم فائدة منح الصلاحية
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.permission_title)
+                        .setMessage(R.string.permission_explanation)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // requestPermissions عند الضغط على زر منح نقوم بطلب الصلاحية عن طريق الدالة
+                                ActivityCompat.requestPermissions(ShareActivity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+                            }
+                        }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //  عند الضغط على زر منع نقوم بإخفاء الرسالة وكأن شيء لم يكن
+                                dialogInterface.dismiss();
+                            }
+                        }).create();
+
+                // نقوم بإظهار الرسالة بعد إنشاء alertDialog
+                alertDialog.show();
+
+            } else {
+                // لا داعي لشرح فائدة الصلاحية للمستخدم ويمكننا طلب الصلاحية منه
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSIONS_WRITE_EXTERNAL_STORAGE);
+            }
+
+        } else {
+            // الصلاحية ممنوحه مسبقا لذلك يمكننا مشاركة الصورة
+            shareImage();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // يتم استدعاء هذه الدالة بعد اختيار المستخدم احد الخيارين من رسالة طلب الصلاحية
+        if (requestCode == PERMISSIONS_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // تم منح الصلاحية من قبل المستخدم لذلك يمكننا مشاركة الصورة الآن
+                shareImage();
+            } else {
+                // لم يتم منح الصلاحية من المستخدم لذلك لن نقوم بمشاركة الصورة، طبعا يمكننا تنبيه المستخدم بأنه لن يتم مشاركة الصورة لسبب عدم منح الصلاحية للتطبيق
+                Toast.makeText(ShareActivity.this, R.string.permission_explanation, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+    }
+

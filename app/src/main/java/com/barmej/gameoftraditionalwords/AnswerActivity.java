@@ -3,11 +3,10 @@ package com.barmej.gameoftraditionalwords;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Random;
+
 
 public class AnswerActivity extends AppCompatActivity {
     private TextView mTextViewAnswer;
@@ -27,6 +26,4 @@ public class AnswerActivity extends AppCompatActivity {
     public void  onReturnClicked(View view) {
         finish();
     }
-
-
 }

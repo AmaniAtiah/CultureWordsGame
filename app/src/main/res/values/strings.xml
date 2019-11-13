@@ -7,6 +7,11 @@
     <string name="share_question_text">شارك</string>
     <string name="share_title_hint">أضف عنوان</string>
     <string name="change_lang_text">تغيير اللغة </string>
+    <string name="permission_title" translatable="false">توضيح</string>
+
+    <string name="permission_explanation" translatable="false">يحتاج التطبيق للحصول على صلاحية الكتابة على وحدة التخزين الخارجية لتخزين الصورة تمهيدا لاتاحة مشاركتها من خلال التطبيقات الأخرى</string>
+    <string name="permission_denied" translatable="false">لم يتم تنفيذ العملية بسبب عدم منح الصلاحيات اللازمة لتنفيذها</string>
+
 
 
     <string-array name="answers">

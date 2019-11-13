@@ -18,13 +18,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String BUNDLE_CURRENT_INDEX = "BUNDLE_CURRENT_INDEX";
+    private static final String BUNDLE_CURRENT_IMAGE = "BUNDLE_CURRENT_IMAGE";
     private static final String BUNDLE_CURRENT_ANSWER = "BUNDLE_CURRENT_ANSWER";
     private static final String BUNDLE_CURRENT_ANSWER_DESCRIPTION = "BUNDLE_CURRENT_ANSWER_DESCEIPTION";
     public ImageView imageViewPicture;
     public ImageButton changeLang;
-
-
 
     private int IMAGE [] = {
             R.drawable.icon_1,
@@ -59,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         imageViewPicture = findViewById(R.id.image_view_picture);
-
         ANSWERS = getResources().getStringArray(R.array.answers);
         ANSWERS_DESCRIPTION = getResources().getStringArray(R.array.answer_description);
         showNewImage();
@@ -139,25 +136,20 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null) {
 
-                mCurrentImage = savedInstanceState.getInt(BUNDLE_CURRENT_INDEX);
+                mCurrentImage = savedInstanceState.getInt(BUNDLE_CURRENT_IMAGE);
                 mCurrentAnswer = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER);
                 mCurrentAnswerDescription = savedInstanceState.getString(BUNDLE_CURRENT_ANSWER_DESCRIPTION);
-
-
                 showImage();
-            }
+        }
         Log.i(TAG,"onRestoreInstanceState");
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(BUNDLE_CURRENT_INDEX, mCurrentImage);
+        outState.putInt(BUNDLE_CURRENT_IMAGE, mCurrentImage);
         outState.putString(BUNDLE_CURRENT_ANSWER, mCurrentAnswer);
         outState.putString(BUNDLE_CURRENT_ANSWER_DESCRIPTION, mCurrentAnswerDescription);
         Log.i(TAG,"onSaveInstanceState");
     }
-
-
-
 }

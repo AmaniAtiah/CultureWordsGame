@@ -39,13 +39,13 @@ public class ShareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share);
         mEditTextShareTitle = findViewById(R.id.edit_text_share_title);
         imageViewPicture = findViewById(R.id.image_view_question);
-        mShareImage = getIntent().getIntExtra(constants.SHARE_IMAGE_EXTRA,0);
+        mShareImage = getIntent().getIntExtra(Constants.SHARE_IMAGE_EXTRA,0);
 
         Drawable imageDrawable = ContextCompat.getDrawable(this,mShareImage);
         imageViewPicture.setImageDrawable(imageDrawable);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
-        String questionTitle = sharedPreferences.getString(constants.SHARE_TITLE,"");
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.APP_PREF, MODE_PRIVATE);
+        String questionTitle = sharedPreferences.getString(Constants.SHARE_TITLE,"");
         mEditTextShareTitle.setText(questionTitle);
     }
 
@@ -66,9 +66,9 @@ public class ShareActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Select"));
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences(constants.APP_PREF, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.APP_PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(constants.SHARE_TITLE, questionTitle);
+        editor.putString(Constants.SHARE_TITLE, questionTitle);
         editor.apply();
     }
 

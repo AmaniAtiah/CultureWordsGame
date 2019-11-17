@@ -1,6 +1,6 @@
 package com.barmej.gameoftraditionalwords;
 
-public class constants {
+public class Constants {
     public static final String QUESTION_ANSWER = "question_answer";
     public static final String SHARE_IMAGE_EXTRA = "share_image_extra";
     public static final String APP_PREF = "app_pref";
